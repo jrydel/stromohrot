@@ -86,6 +86,9 @@ export function LeaderboardClient({ initialAthletes5k, initialAthletes10k }: Pro
       );
     }
 
+    let firstMaleFound = false;
+    let firstFemaleFound = false;
+
     return list.map((a, i) => {
       const displayRank = i + 1;
       let rc = 'rank';
@@ -93,7 +96,15 @@ export function LeaderboardClient({ initialAthletes5k, initialAthletes10k }: Pro
       else if (displayRank === 2) rc += ' second';
       else if (displayRank === 3) rc += ' third';
 
-      const champagne = displayRank === 1 ? <span style={{ fontSize: '0.9rem' }}>🍾</span> : null;
+      let showChampagne = false;
+      if (a.gender === 'male' && !firstMaleFound) {
+        firstMaleFound = true;
+        showChampagne = true;
+      } else if (a.gender === 'female' && !firstFemaleFound) {
+        firstFemaleFound = true;
+        showChampagne = true;
+      }
+      const champagne = showChampagne ? <span style={{ fontSize: '0.9rem' }}>🍾</span> : null;
 
       return (
         <div key={a.id}>

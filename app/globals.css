@@ -391,6 +391,13 @@
             color: #ff6b9d;
         }
 
+        .form-seg-btn.gender-male,
+        .form-seg-btn.gender-female {
+            font-size: 1.3rem;
+            font-weight: 900;
+            -webkit-text-stroke: 1.5px currentColor;
+        }
+
         .form-seg-btn.gender-male.active {
             background: #4a9eff;
             border-color: #4a9eff;
