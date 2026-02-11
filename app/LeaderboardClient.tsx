@@ -39,6 +39,7 @@ export function LeaderboardClient({ initialAthletes5k, initialAthletes10k }: Pro
   const [formName, setFormName] = useState('');
   const [formTime, setFormTime] = useState('');
   const [formSegment, setFormSegment] = useState<'5k' | '10k'>('5k');
+  const [formGender, setFormGender] = useState<'male' | 'female'>('male');
 
   const { data, refetch } = useQuery({
     queryKey: ['leaderboard'],
@@ -56,7 +57,7 @@ export function LeaderboardClient({ initialAthletes5k, initialAthletes10k }: Pro
       const response = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: formName, segment: formSegment, time: formTime }),
+        body: JSON.stringify({ name: formName, segment: formSegment, time: formTime, gender: formGender }),
       });
 
       const result = await response.json();
@@ -102,6 +103,9 @@ export function LeaderboardClient({ initialAthletes5k, initialAthletes10k }: Pro
               {champagne}
             </div>
             <div className="athlete-name">
+              <span className={`gender-icon ${a.gender === 'female' ? 'female' : 'male'}`}>
+                {a.gender === 'female' ? '♀' : '♂'}
+              </span>
               {a.name}
             </div>
             <div className="col-date" style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
@@ -179,6 +183,22 @@ export function LeaderboardClient({ initialAthletes5k, initialAthletes10k }: Pro
                 onClick={() => setFormSegment('10k')}
               >
                 10k
+              </button>
+            </div>
+            <div className="form-segment-toggle">
+              <button
+                type="button"
+                className={`form-seg-btn gender-male ${formGender === 'male' ? 'active' : ''}`}
+                onClick={() => setFormGender('male')}
+              >
+                ♂
+              </button>
+              <button
+                type="button"
+                className={`form-seg-btn gender-female ${formGender === 'female' ? 'active' : ''}`}
+                onClick={() => setFormGender('female')}
+              >
+                ♀
               </button>
             </div>
             <button type="submit" className="submit-btn" disabled={isSubmitting}>

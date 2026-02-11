@@ -33,7 +33,7 @@ function secondsToPace(s: number, distance: number): string {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, segment, time } = body;
+    const { name, segment, time, gender } = body;
 
     if (!name || typeof name !== 'string' || name.trim().length === 0) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 });
@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid time format. Use mm:ss (e.g. 25:30)' }, { status: 400 });
     }
 
+    const validGender = gender === 'female' ? 'female' : 'male';
     const trimmedName = name.trim();
     const { distance } = SEGMENTS[segmentKey];
     const timeDisplay = secondsToDisplay(timeInSeconds);
@@ -72,29 +73,22 @@ export async function POST(request: NextRequest) {
       .limit(1);
 
     if (existing.length > 0) {
-      if (timeInSeconds < existing[0].timeInSeconds) {
-        await db
-          .update(athletes)
-          .set({
-            timeInSeconds,
-            timeDisplay,
-            pace,
-            date,
-            updatedAt: new Date(),
-          })
-          .where(eq(athletes.id, existing[0].id));
-
-        return NextResponse.json({
-          success: true,
-          action: 'updated',
-          message: `Time updated! ${timeDisplay} (was ${existing[0].timeDisplay})`,
-        });
-      }
+      await db
+        .update(athletes)
+        .set({
+          timeInSeconds,
+          timeDisplay,
+          pace,
+          gender: validGender,
+          date,
+          updatedAt: new Date(),
+        })
+        .where(eq(athletes.id, existing[0].id));
 
       return NextResponse.json({
         success: true,
-        action: 'unchanged',
-        message: `Your existing time (${existing[0].timeDisplay}) is already faster.`,
+        action: 'updated',
+        message: `Time updated! ${timeDisplay} (was ${existing[0].timeDisplay})`,
       });
     }
 
@@ -104,6 +98,7 @@ export async function POST(request: NextRequest) {
       timeInSeconds,
       timeDisplay,
       pace,
+      gender: validGender,
       date,
     });
 

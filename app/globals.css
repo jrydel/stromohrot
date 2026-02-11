@@ -126,14 +126,15 @@
 
         .submit-banner p a {
             color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            font-weight: 600;
+            font-size: 0.95rem;
             transition: color 0.2s;
         }
 
         .submit-banner p a:hover {
             color: #FF8C42;
-            text-decoration: underline;
         }
 
         /* ─── SUBMIT FORM ─── */
@@ -285,27 +286,26 @@
         .seg-link {
             display: block;
             font-family: 'Roboto Mono', monospace;
-            font-size: 0.65rem;
-            font-weight: 400;
-            opacity: 0.7;
-            margin-top: 2px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 1;
+            margin-top: 4px;
             letter-spacing: 0.05em;
             text-transform: none;
         }
 
         .seg-link a {
-            color: inherit;
+            color: var(--primary);
             text-decoration: none;
-            transition: opacity 0.2s;
+            transition: color 0.2s, text-decoration 0.2s;
         }
 
         .seg-link a:hover {
-            opacity: 1;
             text-decoration: underline;
         }
 
         .seg-btn.active .seg-link a {
-            color: rgba(255, 255, 255, 0.85);
+            color: #fff;
         }
 
         /* ─── SINGLE PANEL ─── */
@@ -372,6 +372,33 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gender-icon {
+            font-size: 1.05rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .gender-icon.male {
+            color: #4a9eff;
+        }
+
+        .gender-icon.female {
+            color: #ff6b9d;
+        }
+
+        .form-seg-btn.gender-male.active {
+            background: #4a9eff;
+            border-color: #4a9eff;
+        }
+
+        .form-seg-btn.gender-female.active {
+            background: #ff6b9d;
+            border-color: #ff6b9d;
         }
 
         .time {

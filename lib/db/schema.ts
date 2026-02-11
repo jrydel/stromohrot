@@ -7,6 +7,7 @@ export const athletes = pgTable('athletes', {
   timeInSeconds: integer('time_in_seconds').notNull(),
   timeDisplay: text('time_display').notNull(),
   pace: text('pace'),
+  gender: text('gender').notNull().default('male'), // 'male' or 'female'
   date: text('date'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
